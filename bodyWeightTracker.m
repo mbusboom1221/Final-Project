@@ -21,7 +21,7 @@ function [] = bodyWeightTracker()
     xlim(gui.p.Parent,'manual');
     xlabel(gui.p.Parent,'Day');
     ylabel(gui.p.Parent,'Weight (lbs.)');
-    legend('Legend','location','northeastoutside');
+    legend('Legend','location','northeast');
     hold on;
     %Creates or reads from existing file to enable long term use of the
     %function
@@ -184,7 +184,12 @@ f=fit(fitnessMatrix(:,1),fitnessMatrix(:,2),'poly1');
 hold off;
 %plots the goal weight line based on the user's desired rate of loss as a
 %black line
+xlabel('Day');
+ylabel('Weight (lbs.)');
 plot(days,days*goalWeightSlope+weights(1),'k-');
+xlim([1,30]);
+xlabel('Day');
+ylabel('Weight (lbs.)');
 hold on;
 %plots the user's recorded weight from each day as a red star
 plot(days,weights,'r*');
@@ -194,7 +199,7 @@ xlim([1,30]);
 xlabel('Day');
 ylabel('Weight (lbs.)');
 legend('Goal Weight','Daily Weight (lbs)',...
-        'Weight Loss Trend','location','northeastoutside');
+        'Weight Loss Trend','location','northeast');
 end
 function [] = nutritionSuggestion(~,~)
 global gui;
