@@ -137,7 +137,6 @@ gui.avgDeficitDisplay.String=avgDef;
 end
 function [] = bodyWeightTrendline(~,~)
 global gui;
-global days;
 global weights;
 global weeklyLossRate;
 global fitnessMatrix;
