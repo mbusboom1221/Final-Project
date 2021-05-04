@@ -70,12 +70,12 @@ function [] = bodyWeightTracker()
     gui.labelSliderHigh = uicontrol('style','text','string','Aggressive (-1.5%BW/week)','units','normalized','position',[.05 .5 .2 .05]);
     gui.labelSliderLow = uicontrol('style','text','string','Conservative (-.5%BW/week)','units','normalized','position',[.05 .0001 .2 .05]);
     gui.resetButton = uicontrol('style','pushbutton','string','Reset','units','normalized','position',[.75 .9 .2 .05],'callback',@resetGUI);
-    gui.avgDeficit= uicontrol('style','pushbutton','string','Calculate Average Caloric Deficit','units','normalized','position',[.25 .1 .2 .05],'callback',@averageCalories);
-    gui.avgDeficitDisplay= uicontrol('style','text','units','normalized','position',[.25 .025 .2 .05]);
-    gui.avgRateLoss= uicontrol('style','pushbutton','string','Calculate Avg Loss/Week','units','normalized','position',[.475 .1 .2 .05],'callback',@bodyWeightTrendline);
-    gui.avgRateLossDisplay= uicontrol('style','text','units','normalized','position',[.475 .025 .2 .05]);
-    gui.dailyIntakeSuggestion= uicontrol('style','pushbutton','string','Calculate Daily Calories Goal','units','normalized','position',[.7 .1 .2 .05],'callback',@nutritionSuggestion);
-    gui.intakeSuggestionDisplay= uicontrol('style','text','units','normalized','position',[.7 .045 .2 .05]);
+    gui.avgDeficit= uicontrol('style','pushbutton','string','Calculate Average Caloric Deficit','units','normalized','position',[.32 .1 .2 .05],'callback',@averageCalories);
+    gui.avgDeficitDisplay= uicontrol('style','text','units','normalized','position',[.32 .025 .2 .05]);
+    gui.avgRateLoss= uicontrol('style','pushbutton','string','Calculate Avg Loss/Week','units','normalized','position',[.525 .1 .2 .05],'callback',@bodyWeightTrendline);
+    gui.avgRateLossDisplay= uicontrol('style','text','units','normalized','position',[.525 .025 .2 .05]);
+    gui.dailyIntakeSuggestion= uicontrol('style','pushbutton','string','Calculate Daily Calories Goal','units','normalized','position',[.73 .1 .2 .05],'callback',@nutritionSuggestion);
+    gui.intakeSuggestionDisplay= uicontrol('style','text','units','normalized','position',[.73 .025 .2 .05]);
     
 end
 function [] = bodyWeightPlot(~,~)
