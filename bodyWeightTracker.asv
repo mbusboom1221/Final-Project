@@ -57,22 +57,43 @@ function [] = bodyWeightTracker()
     weeklyLossRate=[];
     plot(days,weights,'r*');
     %The gui structures set the layout and function of the GUI
+    %Displays text above Weight user input box
     gui.labelWeight = uicontrol('style','text','string','Weight','units','normalized','position',[.05 .93 .2 .05]);
+    %Weight user input box
     gui.inputWeight = uicontrol('style','edit','units','normalized','position',[.05 .9 .2 .05]);
-    gui.clearFieldsButton = uicontrol('style','pushbutton','units','normalized','position',[.25 .9 .2 .05],'callback',@
+    %Button to clear all the user input boxes for ease of use after error
+    %mesage dipslay
+    gui.clearFieldsButton = uicontrol('style','pushbutton','string','Clear Fields','units','normalized','position',[.26 .9 .2 .05],'callback',@clearFields);
+    %Text label for Calories In box
     gui.labelCaloriesIn = uicontrol('style','text','string','Calories In','units','normalized','position',[.05 .85 .2 .05]);
+    %Calories In box
     gui.inputCaloriesIn = uicontrol('style','edit','units','normalized','position',[.05 .81 .2 .05]);
+    %Test label for Calories Out Box
     gui.labelCaloriesOut = uicontrol('style','text','string','Calories Out (TDEE)','units','normalized','position',[.05 .76 .2 .05]);
+    %Calories Out box
     gui.inputCaloriesOut = uicontrol('style','edit','units','normalized','position',[.05 .72 .2 .05]);
+    %Day number box label
     gui.labelDayNumber = uicontrol('style','text','string','Day Number','units','normalized','position',[.05 .67 .2 .05]);
+    %Day number box input
     gui.inputDayNumber = uicontrol('style','edit','units','normalized','position',[.05 .63 .2 .05]);
+    %Button to write user input data to arrays and file
+    %"recordedBodyWeights.txt" and to plot point on graph
     gui.weighInButton = uicontrol('style','pushbutton','string','Weigh In!','units','normalized','position',[.05 .56 .2 .05],'callback',@bodyWeightPlot);
+    %Slider that initializes trend line plotting and user selected goal
+    %rate of weight loss for nutrition suggestions and trendline comparison
     gui.weightLossRateSlider = uicontrol('style','slider','units','normalized','position',[.125 .07 .05 .435],'value',.01,'min',.005,'max',.015,'callback',@goalWeightTrendline);
+    %Labels upper threshold for slider as "Aggressive (-1.5%BW/Week)"
     gui.labelSliderHigh = uicontrol('style','text','string','Aggressive (-1.5%BW/week)','units','normalized','position',[.05 .5 .2 .05]);
-    gui.labelSliderLow = uicontrol('style','text','string','Conservative (-.5%BW/week)','units','normalized','position',[.05 .0001 .2 .05]);
+    %Labels lower threshold for slider as "Aggressive (-0.5%BW/Week)"
+    gui.labelSliderLow = uicontrol('style','text','string','Conservative (-0.5%BW/week)','units','normalized','position',[.05 .0001 .2 .05]);
+    %Button at top right of GUI to clear the figure and rerun the main
+    %function
     gui.resetButton = uicontrol('style','pushbutton','string','Reset','units','normalized','position',[.75 .9 .2 .05],'callback',@resetGUI);
+    %Buttton to calculate user's average caloric deficit
     gui.avgDeficit= uicontrol('style','pushbutton','string','Calculate Average Caloric Deficit','units','normalized','position',[.32 .1 .2 .05],'callback',@averageCalories);
+    %Text display the calculated average caloric deficit
     gui.avgDeficitDisplay= uicontrol('style','text','units','normalized','position',[.32 .025 .2 .05]);
+    %Button to calculat
     gui.avgRateLoss= uicontrol('style','pushbutton','string','Calculate Avg Loss/Week','units','normalized','position',[.525 .1 .2 .05],'callback',@bodyWeightTrendline);
     gui.avgRateLossDisplay= uicontrol('style','text','units','normalized','position',[.525 .025 .2 .05]);
     gui.dailyIntakeSuggestion= uicontrol('style','pushbutton','string','Calculate Daily Calories Goal','units','normalized','position',[.73 .1 .2 .05],'callback',@nutritionSuggestion);
@@ -137,7 +158,6 @@ gui.avgDeficitDisplay.String=avgDef;
 end
 function [] = bodyWeightTrendline(~,~)
 global gui;
-global days;
 global weights;
 global weeklyLossRate;
 global fitnessMatrix;
@@ -231,6 +251,7 @@ gui.intakeSuggestionDisplay.String=caloriesNeeded;
 end
 function []=clearFields(~,~)
     %Clears all the user input boxes
+    global gui;
     gui.inputWeight.String=[];
     gui.inputDayNumber.String=[];
     gui.inputCaloriesIn.String=[];
