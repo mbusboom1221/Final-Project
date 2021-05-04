@@ -4,7 +4,7 @@
 %%%% THIS PROGRAM IS BUILT FOR EDUCATIONAL PURPOSES ONLY %%%%%%%%%%%%%%%
 %%%% This educational program will open a GUI panel that will allow %%%%
 %%%% a user to track their weight loss progress and provide calorie %%%%
-%%%% intake suggestions based on their goal rate of weight loss.%%%%%%%%
+%%%% intake suggestions based on their goreadal rate of weight loss.%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 function [] = bodyWeightTracker()
     close all;
@@ -23,11 +23,18 @@ function [] = bodyWeightTracker()
     ylabel(gui.p.Parent,'Weight (lbs.)');
     legend('Legend','location','northeastoutside');
     hold on;
+    %Creates or reads from existing file to enable long term use of the
+    %function
     fopen('recordedBodyWeights.txt','a');
+    %Creates a global variable containing a matrix filled with all the core
+    %data needed for functionality
+    global fitnessMatrix;
+    fitnessMatrix=[];
+    fitnessMatrix=readmatrix('recordedBodyWeights.txt');
     %Need to use global variables in order for all the functions to be able
     %to operate on the same data and so that the function will retain the
     %data throughout runtime as the function cannot write to or call from a
-    %file
+    %file (Updated with FileIO support).
     global days;
     global weights;
     global caloriesIn;
@@ -39,7 +46,16 @@ function [] = bodyWeightTracker()
     weights=[];
     caloriesIn=[];
     caloriesOut=[];
+    %Update-Had to add an if block to prevent an error when attempting
+    %index an matrix with a size of 0
+    if size(fitnessMatrix)>0
+        days=fitnessMatrix(:,1);
+        weights=fitnessMatrix(:,2);
+        caloriesIn=fitnessMatrix(:,3);
+        caloriesOut=fitnessMatrix(:,4);
+    end
     weeklyLossRate=[];
+    plot(days,weights,'r*');
     %The gui structures set the layout and function of the GUI
     gui.labelWeight = uicontrol('style','text','string','Weight','units','normalized','position',[.05 .93 .2 .05]);
     gui.inputWeight = uicontrol('style','edit','units','normalized','position',[.05 .9 .2 .05]);
@@ -66,8 +82,9 @@ function [] = bodyWeightPlot(~,~)
     global gui;
     global days;
     global weights;
-    global caloriesIn
-    global caloriesOut
+    global caloriesIn;
+    global caloriesOut;
+    global fitnessMatrix;
     hold on;
     %This if block checks to make sure there are numeric values entered
     %into all input edit boxes and positive numeric values only
@@ -87,16 +104,10 @@ function [] = bodyWeightPlot(~,~)
         gui.inputDayNumber.String = 'Oops! Day Already Recorded!';
         return;
     end
-    %Records user input for day of diet
-    days=[days str2double(gui.inputDayNumber.String)];
-    %Records user input for weight
-    weights=[weights str2double(gui.inputWeight.String)];
-    %Records user input for calorie consumption
-    caloriesIn=[caloriesIn str2double(gui.inputCaloriesIn.String)];
-    %Records user input for calorie expenditure
-    caloriesOut=[caloriesOut str2double(gui.inputCaloriesOut.String)];
-    %Plots the user recorded weight according to the day as a red star
-    plot(days,weights,'r*');
+    fitnessMatrix=[fitnessMatrix;str2double(gui.inputDayNumber.String),str2double(gui.inputWeight.String)...
+        ,str2double(gui.inputCaloriesIn.String),str2double(gui.inputCaloriesOut.String)];
+    dlmwrite('recordedBodyWeights.txt',fitnessMatrix);
+    plot(fitnessMatrix(:,1),fitnessMatrix(:,2),'r*');
     %Clears all the user input boxes upon successful input of data
     gui.inputWeight.String=[];
     gui.inputDayNumber.String=[];
@@ -131,6 +142,7 @@ global gui;
 global days;
 global weights;
 global weeklyLossRate;
+global fitnessMatrix;
 
 %Prevents an error when not enough points are entered
 if length(weights)<3
@@ -138,7 +150,7 @@ if length(weights)<3
     return;
 end
 %Calculates the slope of the trendline for the user recorded weights
-linearCoefficients = polyfit(days',weights',1);
+linearCoefficients = polyfit(fitnessMatrix(:,1),fitnessMatrix(:,2),1);
 %Calculates the average rate of weight loss per day
 weeklyLossRate=linearCoefficients(1)*7;
 %Displays the average rate of weight loss per week for the user below
@@ -150,6 +162,7 @@ function []= goalWeightTrendline(~,~)
 global gui;
 global weights;
 global days;
+global fitnessMatrix;
 %Prevents an error when not enough points are entered
 if length(days)<3
     return;
@@ -160,10 +173,12 @@ end
 %the user's inital weight when beginning the diet.  In future, this should
 %calculate based on user's current weight for a program more conducive to
 %longevity.  Lack of file writing and calling prevents long term use
-%anyway in the function's current state.
+%anyway in the function's current state. (Update) Added fileIO
+%functionality so the function can now write to a file and read from an
+%existing file.
 goalWeightSlope=gui.weightLossRateSlider.Value*(-1)*weights(1)/7;
 %Calculates the line equation for the user's weight trend line
-f=fit(days',weights','poly1');
+f=fit(fitnessMatrix(:,1),fitnessMatrix(:,2),'poly1');
 %Prevents the slider from plotting a line and keeping the line on the plot
 %anytime the value of the slider is changed
 hold off;
