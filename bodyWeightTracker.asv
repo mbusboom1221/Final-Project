@@ -59,7 +59,7 @@ function [] = bodyWeightTracker()
     %The gui structures set the layout and function of the GUI
     gui.labelWeight = uicontrol('style','text','string','Weight','units','normalized','position',[.05 .93 .2 .05]);
     gui.inputWeight = uicontrol('style','edit','units','normalized','position',[.05 .9 .2 .05]);
-    gui.clearFieldsButton = uicontrol('style','pushbutton','string','Clear Fields','units','normalized','position',[.26 .9 .2 .05],'callback',@clearFields);
+    gui.clearFieldsButton = uicontrol('style','pushbutton','units','normalized','position',[.25 .9 .2 .05],'callback',@
     gui.labelCaloriesIn = uicontrol('style','text','string','Calories In','units','normalized','position',[.05 .85 .2 .05]);
     gui.inputCaloriesIn = uicontrol('style','edit','units','normalized','position',[.05 .81 .2 .05]);
     gui.labelCaloriesOut = uicontrol('style','text','string','Calories Out (TDEE)','units','normalized','position',[.05 .76 .2 .05]);
@@ -231,7 +231,6 @@ gui.intakeSuggestionDisplay.String=caloriesNeeded;
 end
 function []=clearFields(~,~)
     %Clears all the user input boxes
-    global gui;
     gui.inputWeight.String=[];
     gui.inputDayNumber.String=[];
     gui.inputCaloriesIn.String=[];

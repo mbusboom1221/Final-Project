@@ -33,8 +33,8 @@ The GUI is setup to be used on a daily basis.
     b)  All numbers must be positive.
     c)  There must be no duplicate values recorded in the "Day" field.
     d)  If an incorrect input results in an error message in the edit boxes,
-        you must fully delete the error message and enter the correct
-        information as a positive number.
+        you must fully delete the error messages by clicking on the
+        "Clear Fields" button to the right of the "Weight" input box.
 5)  Then, select your desired rate of weight loss using the slider below
     the input boxes.
     a)  The upper threshold corresponds to an aggressive rate of -1.5% of
