@@ -108,6 +108,7 @@ function [] = bodyWeightPlot(~,~)
     global gui;
     global days;
     global fitnessMatrix;
+    global weights;
     hold on;
     %This if block checks to make sure there are numeric values entered
     %into all input edit boxes and positive numeric values only
@@ -127,10 +128,15 @@ function [] = bodyWeightPlot(~,~)
         gui.inputDayNumber.String = 'Oops! Day Already Recorded!';
         return;
     end
+    %Assigns user inputs to fitnessMatrix
     fitnessMatrix=[fitnessMatrix;str2double(gui.inputDayNumber.String),str2double(gui.inputWeight.String)...
         ,str2double(gui.inputCaloriesIn.String),str2double(gui.inputCaloriesOut.String)];
+    %Writes additions to fitnessMatrix to file "recordedBodyWeights.txt"
     dlmwrite('recordedBodyWeights.txt',fitnessMatrix);
+    %plots fitnessMatrix to graph
     plot(fitnessMatrix(:,1),fitnessMatrix(:,2),'r*');
+    %Assigns second column of fitnessMatrix to weights array
+    weights=fitnessMatrix(:,2);
     %Clears all the user input boxes upon successful input of data
     gui.inputWeight.String=[];
     gui.inputDayNumber.String=[];
