@@ -11,9 +11,7 @@ functionality of the GUI.  If you wish to play around with the data, you'll
 need to begin the logging with your first entry beginning at day 21.  If
 you want to start with fresh data, open 'recordedBodyWeights.txt'
 manually and delete all data.  If you want to delete a point entered,
-open 'recordedBodyWeights.txt' and delete the entire row/line corresponding
-to the point you wish to delete.  To view the trend lines, simply click
-on the slider or drag to desired rate of weight loss.
+open 'recordedBodyWeights.txt
 
 1)  Make sure Matlab directory contains bodyWeightTracker.m
 2)  Open the .m file or type bodyWeightTracker in the command window.

@@ -23,6 +23,7 @@ function [] = bodyWeightTracker()
     ylabel(gui.p.Parent,'Weight (lbs.)');
     legend('Legend','location','northeastoutside');
     hold on;
+    fopen('recordedBodyWeights.txt','a');
     %Need to use global variables in order for all the functions to be able
     %to operate on the same data and so that the function will retain the
     %data throughout runtime as the function cannot write to or call from a
