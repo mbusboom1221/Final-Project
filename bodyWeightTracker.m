@@ -4,7 +4,7 @@
 %%%% THIS PROGRAM IS BUILT FOR EDUCATIONAL PURPOSES ONLY %%%%%%%%%%%%%%%
 %%%% This educational program will open a GUI panel that will allow %%%%
 %%%% a user to track their weight loss progress and provide calorie %%%%
-%%%% intake suggestions based on their goreadal rate of weight loss.%%%%
+%%%% intake suggestions based on their goal rate of weight loss.%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 function [] = bodyWeightTracker()
     close all;
@@ -74,16 +74,13 @@ function [] = bodyWeightTracker()
     gui.avgDeficitDisplay= uicontrol('style','text','units','normalized','position',[.25 .025 .2 .05]);
     gui.avgRateLoss= uicontrol('style','pushbutton','string','Calculate Avg Loss/Week','units','normalized','position',[.475 .1 .2 .05],'callback',@bodyWeightTrendline);
     gui.avgRateLossDisplay= uicontrol('style','text','units','normalized','position',[.475 .025 .2 .05]);
-    gui.dailyIntakeSuggestion= uicontrol('style','pushbutton','string','Calculate Daily Calories Needed','units','normalized','position',[.7 .1 .2 .05],'callback',@nutritionSuggestion);
-    gui.intakeSuggestionDisplay= uicontrol('style','text','units','normalized','position',[.7 .025 .2 .05]);
+    gui.dailyIntakeSuggestion= uicontrol('style','pushbutton','string','Calculate Daily Calories Goal','units','normalized','position',[.7 .1 .2 .05],'callback',@nutritionSuggestion);
+    gui.intakeSuggestionDisplay= uicontrol('style','text','units','normalized','position',[.7 .045 .2 .05]);
     
 end
 function [] = bodyWeightPlot(~,~)
     global gui;
     global days;
-    global weights;
-    global caloriesIn;
-    global caloriesOut;
     global fitnessMatrix;
     hold on;
     %This if block checks to make sure there are numeric values entered
@@ -210,6 +207,10 @@ global caloriesOut;
 %Prevents an error when not enough points are entered
 if length(weights)<3
     gui.intakeSuggestionDisplay.String='Insufficient Data';
+    return;
+end
+if isempty(avgDef) == 1
+    gui.intakeSuggestionDisplay.String='First, click on "Calculate Average Caloric Deficit".  Then, reclick.';
     return;
 end
 %calculates the desired weight loss rate
